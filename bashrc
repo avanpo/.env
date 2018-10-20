@@ -124,7 +124,38 @@ colors() {
 }
 
 # networking
+alias nc='ncat'
 rping() { fping -g $1 | grep alive; }
+
+# DESCRIPTION
+#   Open a tmp fifo and background a netcat process that relays to a server.
+#   E.g. echo "hello" >&3
+ncfifo() {
+	if [[ $ncfifo_tmpd ]]; then
+		echo "Cleaning up ncfifo."
+		pkill "$ncfifo_ncpid"
+		exec 3>&-
+		rm -r "$ncfifo_tmpd"
+		unset ncfifo_tmpd
+		unset ncfifo_tmpf
+		unset ncfifo_ncpid
+		return 0
+	fi
+
+	ncfifo_tmpd=$(mktemp -d)
+	ncfifo_tmpf="$ncfifo_tmpd"/fifo
+	mkfifo "$ncfifo_tmpf"
+	echo "Created fifo at $ncfifo_tmpf"
+
+	{ nc "$1" "$2" < "$ncfifo_tmpf" & } 2> /dev/null
+	ncfifo_ncpid=$!
+	echo "Netcat started with PID $ncfifo_ncpid"
+
+	exec 3> "$ncfifo_tmpf"
+
+	sleep 0.2
+	kill -0 $ncfifo_ncpid &> /dev/null || ncfifo
+}
 
 # conversion
 d2x() { echo "obase=16;${1}" | bc | awk '{print tolower($0)}'; }
@@ -135,6 +166,11 @@ b2d() { echo "ibase=2;${1}" | bc; }
 b2x() { echo "ibase=2;obase=10000;${1}" | bc | awk '{print tolower($0)}'; }
 
 timestamp() { date -d @$1; }
+
+# media
+vsplice() {
+	ffmpeg -i $1 -ss $2 -t $3 -vcodec copy -acodec copy $4
+}
 
 # source machine specific config
 
