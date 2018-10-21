@@ -18,7 +18,7 @@ WARNING: this will overwrite any existing dotfiles, so back them up first.
 ```shell
 cd ~
 git clone https://github.com/avanpo/.env.git
-./.env/setup_local.sh
+./.env/setup.sh
 
 # or if setting up a server...
 # ./.env/setup_server.sh
@@ -30,7 +30,7 @@ installing to `~/.env` is required, all configs assume this to be the location o
 
 all configuration custom to a machine should go into a file located at `~/.config/bashrc`. this file is sourced at the end of `~/.bashrc`.
 
-at minimum, this file should contain the following environment variable:
+for local machine installed using `setup.sh`, this file should contain the following environment variable:
 
 ```
 export SETUP=laptop

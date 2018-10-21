@@ -21,11 +21,7 @@ if [[ "$distro" == "ubuntu" ]]; then
 	sudo apt update && sudo apt upgrade
 
 	# workflow
-	sudo apt install -y gvim git rsync
-	# utilities
-	sudo apt install -y units
-	# debugging
-	sudo apt install -y gdb ltrace strace
+	sudo apt install -y gvim git
 	# networking
 	sudo apt install -y nmap traceroute fping tcpdump
 fi
