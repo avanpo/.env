@@ -126,6 +126,8 @@ colors() {
 # networking
 alias nc='ncat'
 rping() { fping -g $1 | grep alive; }
+ipaddr() { dig +short myip.opendns.com @resolver1.opendns.com }
+ipaddrl() { ip addr | grep -v -e "127.0.0.1/" -e "::1/" | grep inet | awk '{print $2}' | cut -d '/' -f 1 }
 
 # DESCRIPTION
 #   Open a tmp fifo and background a netcat process that relays to a server.
@@ -147,9 +149,9 @@ ncfifo() {
 	mkfifo "$ncfifo_tmpf"
 	echo "Created fifo at $ncfifo_tmpf"
 
-	{ nc "$1" "$2" < "$ncfifo_tmpf" & } 2> /dev/null
+	echo -n "Netcat starting at "
+	nc "$1" "$2" < "$ncfifo_tmpf" | tee "$ncfifo_tmpd"/out | xxd -c 16 -p &
 	ncfifo_ncpid=$!
-	echo "Netcat started with PID $ncfifo_ncpid"
 
 	exec 3> "$ncfifo_tmpf"
 
