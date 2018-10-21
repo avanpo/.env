@@ -18,11 +18,14 @@ if [ "$distro" = "arch" ]; then
 	# media
 	#####################
 	sudo pacman -S --noconfirm mpd mpc ncmpcpp mpv gimp zathura
+	sudo pacman -S --noconfirm ffmpeg
 
 	# tools
 	#####################
 	# workflow
 	sudo pacman -S --noconfirm gvim git rsync
+	# utilities
+	sudo pacman -S --noconfirm units
 	# debugging
 	sudo pacman -S --noconfirm gdb ltrace strace
 	# networking

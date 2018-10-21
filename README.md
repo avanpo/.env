@@ -18,7 +18,10 @@ WARNING: this will overwrite any existing dotfiles, so back them up first.
 ```shell
 cd ~
 git clone https://github.com/avanpo/.env.git
-./.env/setup.sh
+./.env/setup_local.sh
+
+# or if setting up a server...
+# ./.env/setup_server.sh
 ```
 
 installing to `~/.env` is required, all configs assume this to be the location of scripts and various media.
