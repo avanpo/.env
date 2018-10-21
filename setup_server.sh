@@ -21,7 +21,7 @@ if [[ "$distro" == "ubuntu" ]]; then
 	sudo apt update && sudo apt upgrade
 
 	# workflow
-	sudo apt install -y gvim git
+	sudo apt install -y git
 	# networking
 	sudo apt install -y nmap traceroute fping tcpdump
 fi
