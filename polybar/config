@@ -68,7 +68,7 @@ label-urgent-padding = 1
 
 [module/weather]
 type = custom/script
-interval = 15
+interval = 60
 format = <label>
 label-padding = 1
 exec = ~/.env/polybar/weather.py

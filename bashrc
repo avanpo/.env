@@ -166,6 +166,7 @@ x2d() { echo "ibase=16;${1^^}" | bc; }
 x2b() { echo "ibase=16;obase=2;${1^^}" | bc; }
 b2d() { echo "ibase=2;${1}" | bc; }
 b2x() { echo "ibase=2;obase=10000;${1}" | bc | awk '{print tolower($0)}'; }
+ascii() { man 7 ascii; }
 
 timestamp() { date -d @$1; }
 
