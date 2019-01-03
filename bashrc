@@ -15,7 +15,7 @@ export LESSHISTFILE=/dev/null
 
 # path
 
-export PATH="$PATH:~/.env/bin"
+export PATH="$PATH:$HOME/.env/bin"
 
 # PS1
 
@@ -32,6 +32,8 @@ fi
 PS1=$BOLD$GRN'\u@'$HOST$RST':'$BOLD$BLUE'\w'$RST'\$ '
 
 # aliases
+
+alias sudo='sudo '
 
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'

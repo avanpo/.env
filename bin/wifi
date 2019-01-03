@@ -21,6 +21,8 @@ echo -n "[Description]: "
 read description
 
 output="Description='$description'\n\n"
+output+="Interface=$wireless_interface\n"
+output+="Connection=wireless\n\n"
 output+="ESSID='$ssid'\n"
 
 if [ -z $key ]; then
@@ -29,13 +31,11 @@ else
 	output+="Security=wpa\nKey='$key'\n\n"
 fi
 
-output+="Connection=wireless\n"
-output+="Interface=$wireless_interface\n"
 output+="IP=dhcp\n"
 output+="Priority=2\n"
 
 echo -ne $output > "/etc/netctl/$name"
 echo "Wrote new profile to /etc/netctl/$name."
 
-systemctl restart netctl
+systemctl restart netctl-auto@"$wireless_interface".service
 echo "Restarted netctl."
