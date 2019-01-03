@@ -1,52 +1,53 @@
-#!/bin/bash
-
-distro=$(cat /etc/os-release |& grep '^ID=' | cut -d '=' -f 2)
+#!/usr/bin/env bash
+#
+# Run with "desktop" as the second argument to install desktop stuff.
 
 # install software
-# TODO: actually test this and add missing software
 
-if [ "$distro" = "arch" ]; then
-	# desktop environment
-	#####################
-	sudo pacman -S --noconfirm i3 rofi ranger compton conky xautolock
-	sudo pacman -S --noconfirm scrot ttf-dejavu ttf-font-awesome
-
-	# software
-	#####################
-	sudo pacman -S --noconfirm firefox keepassx2 irssi transmission
-
-	# media
-	#####################
-	sudo pacman -S --noconfirm mpd mpc ncmpcpp mpv gimp zathura
-	sudo pacman -S --noconfirm ffmpeg
-
-	# tools
-	#####################
-	# workflow
-	sudo pacman -S --noconfirm gvim git rsync
+if command -v pacman >/dev/null 2>&1; then
+	sudo pacman -Syu
+	sudo pacman -S --noconfirm base-devel
+	sudo pacman -S --noconfirm ltrace gdb git gvim strace
 	# utilities
-	sudo pacman -S --noconfirm units
-	# debugging
-	sudo pacman -S --noconfirm gdb ltrace strace
-	# networking
-	sudo pacman -S --noconfirm openvpn bluez bluez-utils
-	sudo pacman -S --noconfirm nmap traceroute fping wireshark-cli tcpdump
-	sudo gpasswd -a "$USER" wireshark
-	# embedded
-	sudo pacman -S --noconfirm avr-binutils avr-gcc avrdude avr-libc
+	sudo pacman -S --noconfirm fping nmap rsync tcpdump traceroute units
+	# arch specific
+	if [[ $1 == desktop ]]; then
+		# desktop environment
+		sudo pacman -S --noconfirm compton feh htop i3 i3lock ranger rofi scrot ttf-dejavu ttf-font-awesome xautolock xbacklight
+		# software
+		sudo pacman -S --noconfirm firefox keepassx2 irssi transmission
+		# media
+		sudo pacman -S --noconfirm beep ffmpeg gimp mpc mpd mpv ncmpcpp zathura
+		# extra networking
+		sudo pacman -S --noconfirm openvpn bluez bluez-utils wireshark-cli
+		sudo gpasswd -a "$USER" wireshark
+		# embedded
+		sudo pacman -S --noconfirm avr-binutils avr-gcc avrdude avr-libc
+	fi
+elif command -v apt >/dev/null 2>&1; then
+	sudo apt update && sudo apt upgrade
+	sudo apt install -y ltrace gdb git gvim strace
+	sudo apt install -y fping nmap tcpdump traceroute units
+	if [[ $1 == desktop ]]; then
+		sudo apt install -y compton feh htop i3-wm i3lock ranger rofi scrot ttf-dejavu fonts-font-awesome xautolock xbacklight
+		sudo apt install -y firefox keepassx2 irssi transmission
+		sudo apt install -y beep ffmpeg gimp mpc mpd mpv ncmpcpp zathura
+	fi
 fi
 
 # create folders
 
-mkdir -p downloads
-mkdir -p music
+if [[ $1 == desktop ]]; then
+	mkdir -p downloads
+	mkdir -p music
 
-mkdir -p .config/i3
-mkdir -p .config/gtk-3.0
-mkdir -p .config/mpd/playlists
-mkdir -p .config/polybar
-mkdir -p .config/rofi
-mkdir -p .config/zathura
+	mkdir -p .config/i3
+	mkdir -p .config/gtk-3.0
+	mkdir -p .config/mpd/playlists
+	mkdir -p .config/polybar
+	mkdir -p .config/rofi
+	mkdir -p .config/zathura
+fi
 
 # link dotfiles
 
@@ -55,9 +56,11 @@ linkdf() {
 	ln -s ~/.env/$1 .$1
 }
 
-linkdf xinitrc
-linkdf xsession
-linkdf Xresources
+if [[ $1 == desktop ]]; then
+	linkdf xinitrc
+	linkdf xsession
+	linkdf Xresources
+fi
 
 linkdf bash_profile
 linkdf bashrc
@@ -72,9 +75,11 @@ linkcf() {
 	ln -s ~/.env/$1 .config/$1
 }
 
-linkcf i3/config
-linkcf gtk-3.0/settings.ini
-linkcf mpd/mpd.conf
-linkcf polybar/config
-linkcf rofi/config
-linkcf zathura/zathurarc
+if [[ $1 == desktop ]]; then
+	linkcf i3/config
+	linkcf gtk-3.0/settings.ini
+	linkcf mpd/mpd.conf
+	linkcf polybar/config
+	linkcf rofi/config
+	linkcf zathura/zathurarc
+fi
