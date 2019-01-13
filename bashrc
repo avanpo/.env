@@ -170,7 +170,12 @@ b2d() { echo "ibase=2;${1}" | bc; }
 b2x() { echo "ibase=2;obase=10000;${1}" | bc | awk '{print tolower($0)}'; }
 ascii() { man 7 ascii; }
 
-timestamp() { date -d @$1; }
+time2date() { date -d @"$1"; }
+date2time() {
+	timezone="PST"
+	if [[ $2 ]]; then timezone="$2"; fi
+	date -d "$1 $timezone" +"%s";
+}
 
 # media
 vsplice() {
