@@ -34,6 +34,8 @@ endif                                  " use <C-L> to clear hl
 set viminfo='25,\"100,:20,%,n~/.vim/.viminfo
 " remember last position in file
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+set undofile
+set undodir=~/.vim/undodir
 
 " syntax
 """"""""""""""""
