@@ -41,3 +41,7 @@ set undodir=~/.vim/undodir
 """"""""""""""""
 filetype plugin indent on              " enable file type based indenting
 syntax on                              " enable file type based syntax hl
+
+" overrides
+""""""""""""""""
+au BufRead,BufNewFile *.htm,*.html setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2

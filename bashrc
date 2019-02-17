@@ -48,6 +48,7 @@ alias q='exit'
 alias ps='ps -efjH'
 alias psg='ps | grep'
 alias c='xclip -selection clipboard'
+alias co='xclip -selection clipboard -o'
 
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -176,6 +177,8 @@ date2time() {
 	if [[ $2 ]]; then timezone="$2"; fi
 	date -d "$1 $timezone" +"%s";
 }
+
+md5() { echo -n "$1" | md5sum | cut -d ' ' -f 1; }
 
 # media
 vsplice() {
