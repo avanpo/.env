@@ -64,6 +64,7 @@ fi
 
 linkdf bash_profile
 linkdf bashrc
+linkdf inputrc
 
 linkdf vimrc
 linkdf gdbinit
