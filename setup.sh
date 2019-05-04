@@ -63,7 +63,9 @@ if [[ $1 == desktop ]]; then
 fi
 
 linkdf bash_profile
+linkdf bash_logout
 linkdf bashrc
+linkdf editrc
 linkdf inputrc
 
 linkdf vimrc
