@@ -37,11 +37,13 @@ au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g
 set undofile
 set undodir=~/.vim/undodir
 
+" file types
+""""""""""""""""
+au BufNewFile,BufRead *.htm,*.html setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2
+au BufNewFile,BufRead *.md setfiletype markdown
+au BufNewFile,BufRead *.md setlocal textwidth=80
+
 " syntax
 """"""""""""""""
 filetype plugin indent on              " enable file type based indenting
 syntax on                              " enable file type based syntax hl
-
-" overrides
-""""""""""""""""
-au BufRead,BufNewFile *.htm,*.html setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2
