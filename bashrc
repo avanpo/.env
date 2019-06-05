@@ -3,7 +3,8 @@
 # settings
 
 HISTCONTROL=ignoreboth
-HISTSIZE=10000
+HISTSIZE=
+HISTFILESIZE=
 shopt -s histappend
 
 set -o vi
