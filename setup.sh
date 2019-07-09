@@ -19,7 +19,7 @@ if command -v pacman >/dev/null 2>&1; then
 		# media
 		sudo pacman -S --noconfirm beep ffmpeg gimp mpc mpd mpv ncmpcpp zathura
 		# extra networking
-		sudo pacman -S --noconfirm openvpn bluez bluez-utils wireshark-cli
+		sudo pacman -S --noconfirm openvpn bluez bluez-utils wireshark-cli ipcalc
 		sudo gpasswd -a "$USER" wireshark
 		# embedded
 		sudo pacman -S --noconfirm avr-binutils avr-gcc avrdude avr-libc
@@ -27,7 +27,7 @@ if command -v pacman >/dev/null 2>&1; then
 elif command -v apt >/dev/null 2>&1; then
 	sudo apt update && sudo apt upgrade
 	sudo apt install -y ltrace gdb git gvim strace
-	sudo apt install -y fping nmap tcpdump traceroute units
+	sudo apt install -y fping nmap tcpdump traceroute units ipcalc
 	if [[ $1 == desktop ]]; then
 		sudo apt install -y compton feh htop i3-wm i3lock ranger rofi scrot ttf-dejavu fonts-font-awesome xautolock xbacklight
 		sudo apt install -y firefox keepassx2 irssi transmission
