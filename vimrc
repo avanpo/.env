@@ -1,7 +1,19 @@
-" basic settings
+" plugins
 """"""""""""""""
-set nocompatible                       " enable non-vi modern features
-set autoread                           " automatically read external changes
+if empty(glob('~/.vim/autoload/plug.vim'))  " auto install
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+call plug#begin('~/.vim/plugged')
+Plug 'tpope/vim-sensible'
+Plug 'psf/black'
+Plug 'ycm-core/YouCompleteMe', { 'do': './install.py' }
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'tomtom/tcomment_vim'
+Plug 'dhruvasagar/vim-table-mode'
+call plug#end()
 
 " behavior
 """"""""""""""""
@@ -11,23 +23,10 @@ set wildmode=longest:full,full         " complete longest on tab, full on 2nd
 
 " appearance
 """"""""""""""""
-set colorcolumn=80                     " show 80 char col limit
-set laststatus=2                       " always show status bar
 set number                             " show line numbers
-set ruler                              " show cursor line/col values
 
-set scrolloff=1                        " show next 1 line when scrolling
-set sidescrolloff=5                    " show next 5 cols when scrolling
 set display=lastline                   " show truncated line instead of @
 set display+=uhex                      " show unprintable ascii as hex
-
-" searching
-""""""""""""""""
-set incsearch                          " on the fly searching
-
-if maparg('<C-L', 'n') ==# ''
-  nnoremap <silent> <C-L> :nohlsearch<C-R>has('diff')?'<Bar>diffupdate'"''<CR><CR><C-L>
-endif                                  " use <C-L> to clear hl
 
 " history
 """"""""""""""""
@@ -39,11 +38,6 @@ set undodir=~/.vim/undodir
 
 " file types
 """"""""""""""""
-au BufNewFile,BufRead *.htm,*.html setlocal expandtab tabstop=2 shiftwidth=2 softtabstop=2
-au BufNewFile,BufRead *.md setfiletype markdown
-au BufNewFile,BufRead *.md setlocal textwidth=80
-
-" syntax
-""""""""""""""""
-filetype plugin indent on              " enable file type based indenting
-syntax on                              " enable file type based syntax hl
+" markdown
+let g:markdown_fenced_languages = ['python', 'bash=sh']
+au FileType markdown setlocal textwidth=80
