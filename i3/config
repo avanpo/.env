@@ -176,6 +176,7 @@ bindsym $mod+b exec --no-startup-id "$HOME/.env/bin/vpn"
 for_window [class="URxvt" instance="floating"] border none, floating enable
 bindsym $mod+Return exec --no-startup-id "urxvt"
 bindsym $mod+Shift+Return exec --no-startup-id "urxvt -name floating"
+bindsym $mod+Shift+backslash exec --no-startup-id "urxvt -name floating -e python"
 
 bindsym $mod+c exec "xdg-open http://"
 bindsym $mod+space exec "rofi -show run"
