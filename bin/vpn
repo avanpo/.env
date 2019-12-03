@@ -4,12 +4,12 @@
 #
 # This script uses pkexec for permissions. It assumes OpenVPN. By default, the
 # client configuration lives at ~/.config/client.ovpn, but this can be changed
-# by setting OPENVPN_CONFIG_LOCATION.
+# by setting OPENVPN_CONFIG_PATH.
 #
 
 config_path="$HOME/.config/client.ovpn"
-if [[ -n $OPENVPN_CONFIG_LOCATION ]]; then
-	config_path="$OPENVPN_CONFIG_LOCATION"
+if [[ -n $OPENVPN_CONFIG_PATH ]]; then
+	config_path="$OPENVPN_CONFIG_PATH"
 fi
 
 sudo_wrapper=(urxvt -name floating -geometry 40x1 -e sudo -p "password: ")
