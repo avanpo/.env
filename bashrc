@@ -179,6 +179,7 @@ date2time() {
 	date -d "$1 $timezone" +"%s";
 }
 
+token() { < /dev/urandom tr -dc A-Za-z0-9 | head -c${1:-32} | tee >(c) | echo "Copied to clipboard."; }
 md5() { echo -n "$1" | md5sum | cut -d ' ' -f 1; }
 
 # media
