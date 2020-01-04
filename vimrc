@@ -15,6 +15,11 @@ Plug 'tomtom/tcomment_vim'
 Plug 'dhruvasagar/vim-table-mode'
 call plug#end()
 
+" plugin behavior
+""""""""""""""""
+let g:ycm_autoclose_preview_window_after_insertion = 1
+let g:ycm_autoclose_preview_window_after_completion = 1
+
 " behavior
 """"""""""""""""
 set clipboard=unnamedplus              " use system clipboard
@@ -41,3 +46,9 @@ set undodir=~/.vim/undodir
 " markdown
 let g:markdown_fenced_languages = ['python', 'bash=sh']
 au FileType markdown setlocal textwidth=80
+
+" yaml
+au FileType yaml,yml setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+
+" html
+au FileType html setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
