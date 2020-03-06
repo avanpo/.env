@@ -24,4 +24,4 @@ else
 	polybar main &
 fi
 
-echo "Polybar launched."
+echo "launch.sh: Polybar launched."
