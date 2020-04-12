@@ -195,6 +195,7 @@ bindsym Mod4+Mod1+z exec --no-startup-id "$HOME/.env/i3/lock.sh"
 bindsym XF86ScreenSaver exec --no-startup-id "$HOME/.env/i3/lock.sh"
 
 # startup execs
+exec_always --no-startup-id "$HOME/.env/display/fehbg.sh"
 exec --no-startup-id compton --config "$HOME/.env/compton/config"
 exec_always --no-startup-id "$HOME/.env/polybar/launch.sh"
 exec --no-startup-id "$HOME/.env/display/outputs.sh"
