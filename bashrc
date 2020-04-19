@@ -16,7 +16,7 @@ export LESSHISTFILE=/dev/null
 
 # path
 
-export PATH="$PATH:$HOME/.env/bin"
+export PATH="$PATH:$HOME/go/bin:$HOME/.env/bin"
 
 # PS1
 

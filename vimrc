@@ -13,6 +13,10 @@ Plug 'ycm-core/YouCompleteMe', { 'do': './install.py' }
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tomtom/tcomment_vim'
 Plug 'dhruvasagar/vim-table-mode'
+Plug 'google/vim-maktaba'
+Plug 'google/vim-codefmt'
+Plug 'google/vim-glaive'
+Plug 'bazelbuild/vim-bazel'
 call plug#end()
 
 " plugin behavior
@@ -43,12 +47,24 @@ set undodir=~/.vim/undodir
 
 " file types
 """"""""""""""""
+
+" google/vim-codefmt
+augroup autoformat_settings
+  autocmd FileType bzl AutoFormatBuffer buildifier
+  autocmd FileType c,cpp,proto,javascript AutoFormatBuffer clang-format
+  autocmd FileType dart AutoFormatBuffer dartfmt
+  autocmd FileType go AutoFormatBuffer gofmt
+  autocmd FileType gn AutoFormatBuffer gn
+  autocmd FileType html,css,sass,scss,less,json,template AutoFormatBuffer js-beautify
+  autocmd FileType java AutoFormatBuffer google-java-format
+  autocmd FileType python AutoFormatBuffer yapf
+  autocmd FileType rust AutoFormatBuffer rustfmt
+  autocmd FileType vue AutoFormatBuffer prettier
+augroup END
+
 " markdown
 let g:markdown_fenced_languages = ['python', 'bash=sh']
 au FileType markdown setlocal textwidth=80
 
 " yaml
 au FileType yaml,yml setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-
-" html
-au FileType html setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
