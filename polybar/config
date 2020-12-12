@@ -30,7 +30,7 @@ font-2 = FontAwesome:pixelsize=11;3
 
 modules-left = i3
 modules-center = weather
-modules-right = volume xbacklight wlan eth vpn battery date
+modules-right = pulseaudio xbacklight wlan eth vpn battery date
 
 [module/i3]
 type = internal/i3
@@ -137,8 +137,8 @@ format-padding = 1
 
 label-foreground = ${colors.text}
 
-[module/volume]
-type = internal/volume
+[module/pulseaudio]
+type = internal/pulseaudio
 
 format-volume = <ramp-volume> <label-volume>
 format-muted =  mute
@@ -148,6 +148,7 @@ label-volume = %percentage%%
 format-volume-padding = 1
 format-muted-foreground = ${colors.icon}
 format-muted-padding = 1
+label-muted-foreground = ${colors.text}
 
 ramp-volume-foreground = ${colors.icon}
 ramp-volume-0 = 
@@ -155,8 +156,6 @@ ramp-volume-1 = 
 ramp-volume-2 = 
 ramp-headphones-0 = 
 ramp-headphones-1 = 
-
-label-muted-foreground = ${colors.text}
 
 [module/battery]
 type = internal/battery

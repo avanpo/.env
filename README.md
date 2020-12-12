@@ -43,3 +43,17 @@ optional vars:
 export OPENWEATHERMAP_LOCATION=city
 export OPENWEATHERMAP_API_KEY=key
 ```
+
+### Audio
+
+```
+$ sudo pacman -S pulseaudio
+```
+
+Restart for pulseaudio and pactl to start working.
+
+```
+$ systemctl --user enable mpd.service
+```
+
+Note that to check status with systemctl, the `--user` flag must also be used.
