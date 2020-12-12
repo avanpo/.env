@@ -30,7 +30,7 @@ font-2 = FontAwesome:pixelsize=11;3
 
 modules-left = i3
 modules-center = weather
-modules-right = pulseaudio xbacklight wlan eth vpn battery date
+modules-right = pulseaudio backlight xbacklight wlan eth vpn battery date
 
 [module/i3]
 type = internal/i3
@@ -80,15 +80,21 @@ format = <label>
 label-padding = 1
 exec = ~/.env/polybar/vpn.sh
 
-[module/xbacklight]
-type = internal/xbacklight
-
+[module/backlight]
+type = internal/backlight
+card = amdgpu_bl0
 format = " <label>"
 label = %percentage%%
-
 format-foreground = ${colors.icon}
 format-padding = 1
+label-foreground = ${colors.text}
 
+[module/xbacklight]
+type = internal/xbacklight
+format = " <label>"
+label = %percentage%%
+format-foreground = ${colors.icon}
+format-padding = 1
 label-foreground = ${colors.text}
 
 [module/wlan]

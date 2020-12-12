@@ -44,6 +44,36 @@ export OPENWEATHERMAP_LOCATION=city
 export OPENWEATHERMAP_API_KEY=key
 ```
 
+### Generic tools & troubleshooting
+
+Some useful packages:
+
+```
+$ sudo pacman -S usbutils
+```
+
+To troubleshoot keyboard mappings and i3 configuration, use `xmodmap -pke` to
+get current keycode mappings and `sudo evtest` to get the codes when certain
+keys are pressed.
+
+On the Zephyrus G14, the mute mic button didn't map as expected. This should be
+fixed in a future kernel release.
+
+### Display
+
+Both `xorg-backlight` and `acpilight` packages provide the tool `xbacklight`,
+which controls brightness.
+
+This requires root but both packages install udev rules that allow users to
+change them. Note that they are different rules, so installing one over the
+other will require a restart.
+
+On the Zephyrus G14, xorg-backlight didn't work (or show any errors). Installing
+`acpilight` fixed the problem (after rebooting).
+
+Note that `acpilight` does not appear to work with polybar's xbacklight module,
+but it's possible to use the backlight module instead (by setting the card).
+
 ### Audio
 
 ```
