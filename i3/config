@@ -146,6 +146,19 @@ client.unfocused        $gry   $blk       $wht $gry      $gry
 client.urgent           $red   $blk       $wht $red      $red
 client.placeholder      $gry   $blk       $wht $gry      $gry
 
+# startup execs
+exec_always --no-startup-id "$HOME/.env/display/fehbg.sh"
+exec --no-startup-id compton --config "$HOME/.env/compton/config"
+exec_always --no-startup-id "$HOME/.env/polybar/launch.sh"
+exec --no-startup-id "$HOME/.env/display/outputs.sh"
+
+# lock screen
+exec --no-startup-id xautolock -time 10 -locker "$HOME/.env/i3/lock.sh nofullscreen"
+
+bindsym Control+Mod1+l exec --no-startup-id "$HOME/.env/i3/lock.sh"
+bindsym Mod4+Mod1+z exec --no-startup-id "$HOME/.env/i3/lock.sh"
+bindsym XF86ScreenSaver exec --no-startup-id "$HOME/.env/i3/lock.sh"
+
 # control keybindings
 bindsym $mod+Shift+a floating toggle
 bindsym $mod+a focus mode_toggle
@@ -187,20 +200,9 @@ bindsym $mod+c exec "xdg-open http://"
 bindsym $mod+space exec "rofi -show run"
 bindsym $mod+Shift+space exec "rofi -show drun"
 
+for_window [class="URxvt" instance="float"] border none, floating enable, resize set 80 ppt 80 ppt, move position center
+bindsym $mod+x exec --no-startup-id "$HOME/.env/i3/float.sh ncmpcpp"
+
 bindsym $mod+z exec --no-startup-id "$HOME/.env/display/dropdown.sh ranger"
-bindsym $mod+x exec --no-startup-id "$HOME/.env/display/dropdown.sh ncmpcpp"
 bindsym $mod+m exec --no-startup-id "$HOME/.env/display/dropdown.sh 'calcurse -D $HOME/.config/calcurse'"
 bindsym $mod+comma exec --no-startup-id "$HOME/.env/display/dropdown.sh htop"
-
-# lock screen
-exec --no-startup-id xautolock -time 10 -locker "$HOME/.env/i3/lock.sh nofullscreen"
-
-bindsym Control+Mod1+l exec --no-startup-id "$HOME/.env/i3/lock.sh"
-bindsym Mod4+Mod1+z exec --no-startup-id "$HOME/.env/i3/lock.sh"
-bindsym XF86ScreenSaver exec --no-startup-id "$HOME/.env/i3/lock.sh"
-
-# startup execs
-exec_always --no-startup-id "$HOME/.env/display/fehbg.sh"
-exec --no-startup-id compton --config "$HOME/.env/compton/config"
-exec_always --no-startup-id "$HOME/.env/polybar/launch.sh"
-exec --no-startup-id "$HOME/.env/display/outputs.sh"

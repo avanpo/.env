@@ -74,6 +74,14 @@ On the Zephyrus G14, xorg-backlight didn't work (or show any errors). Installing
 Note that `acpilight` does not appear to work with polybar's xbacklight module,
 but it's possible to use the backlight module instead (by setting the card).
 
+### Locking
+
+One can use `i3lock` for screen locking and `xautolock` to auto lock after some
+period of inactivity.
+
+My 'lock.sh' script also uses `scrot` to take a screenshot and `convert`
+(`imagemagick`) to edit it.
+
 ### Audio
 
 ```
@@ -83,18 +91,11 @@ $ sudo pacman -S pulseaudio
 Restart for pulseaudio and pactl to start working.
 
 ```
+$ sudo pacman -S mpd mpc ncmpcpp
 $ systemctl --user enable mpd.service
 ```
 
 Note that to check status with systemctl, the `--user` flag must also be used.
-
-### Locking
-
-One can use `i3lock` for screen locking and `xautolock` to auto lock after some
-period of inactivity.
-
-My 'lock.sh' script also uses `scrot` to take a screenshot and `convert`
-(`imagemagick`) to edit it.
 
 ### File browser
 
