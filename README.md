@@ -87,3 +87,28 @@ $ systemctl --user enable mpd.service
 ```
 
 Note that to check status with systemctl, the `--user` flag must also be used.
+
+### Locking
+
+One can use `i3lock` for screen locking and `xautolock` to auto lock after some
+period of inactivity.
+
+My 'lock.sh' script also uses `scrot` to take a screenshot and `convert`
+(`imagemagick`) to edit it.
+
+### File browser
+
+We use ranger for browsing files, and w3m for image previews.
+
+```
+$ sudo pacman -S ranger w3m
+```
+
+### Documents
+
+We use zathura for PDFs and other documents.
+
+```
+$ sudo pacman -S zathura zathura-djvu zathura-pdf-mupdf
+$ xdg-mime default org.pwmt.zathura.desktop application/pdf
+```
