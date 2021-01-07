@@ -197,10 +197,10 @@ bindsym $mod+Shift+Return exec --no-startup-id "urxvt -name floating"
 bindsym $mod+Shift+backslash exec --no-startup-id "urxvt -name floating -e python"
 
 bindsym $mod+c exec "xdg-open http://"
-bindsym $mod+space exec "rofi -show run"
-bindsym $mod+Shift+space exec "rofi -show drun"
+bindsym $mod+space exec "rofi -show drun"
+bindsym $mod+Shift+space exec "rofi -show run"
 
-for_window [class="URxvt" instance="float"] border none, floating enable, resize set 80 ppt 80 ppt, move position center
+for_window [class="URxvt" instance="cover"] border none, floating enable, resize set 80 ppt 80 ppt, move position center
 bindsym $mod+z exec --no-startup-id "$HOME/.env/i3/float.sh ranger"
 bindsym $mod+x exec --no-startup-id "$HOME/.env/i3/float.sh ncmpcpp"
 bindsym $mod+comma exec --no-startup-ipd "$HOME/.env/i3/float.sh htop"

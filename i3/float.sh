@@ -7,4 +7,4 @@ if pgrep -x "$1" > /dev/null; then
 	exit 0
 fi
 
-urxvt -name float -e "$1" &
+urxvt -name cover -e "$1" &
