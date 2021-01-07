@@ -201,8 +201,6 @@ bindsym $mod+space exec "rofi -show run"
 bindsym $mod+Shift+space exec "rofi -show drun"
 
 for_window [class="URxvt" instance="float"] border none, floating enable, resize set 80 ppt 80 ppt, move position center
+bindsym $mod+z exec --no-startup-id "$HOME/.env/i3/float.sh ranger"
 bindsym $mod+x exec --no-startup-id "$HOME/.env/i3/float.sh ncmpcpp"
-
-bindsym $mod+z exec --no-startup-id "$HOME/.env/display/dropdown.sh ranger"
-bindsym $mod+m exec --no-startup-id "$HOME/.env/display/dropdown.sh 'calcurse -D $HOME/.config/calcurse'"
-bindsym $mod+comma exec --no-startup-id "$HOME/.env/display/dropdown.sh htop"
+bindsym $mod+comma exec --no-startup-ipd "$HOME/.env/i3/float.sh htop"
