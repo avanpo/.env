@@ -17,6 +17,7 @@ Plug 'google/vim-maktaba'
 Plug 'google/vim-codefmt'
 Plug 'google/vim-glaive'
 Plug 'bazelbuild/vim-bazel'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 call plug#end()
 
 " plugin behavior
@@ -55,7 +56,7 @@ augroup autoformat_settings
   autocmd FileType dart AutoFormatBuffer dartfmt
   autocmd FileType go AutoFormatBuffer gofmt
   autocmd FileType gn AutoFormatBuffer gn
-  autocmd FileType html,css,sass,scss,less,json,template AutoFormatBuffer js-beautify
+  autocmd FileType html,css,sass,scss,less,json,template,vue AutoFormatBuffer js-beautify
   autocmd FileType java AutoFormatBuffer google-java-format
   autocmd FileType python AutoFormatBuffer yapf
   autocmd FileType rust AutoFormatBuffer rustfmt

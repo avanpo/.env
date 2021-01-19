@@ -17,6 +17,7 @@ export LESSHISTFILE=/dev/null
 # path
 
 export PATH="$PATH:$HOME/go/bin:$HOME/.env/bin"
+export GOPATH=$(go env GOPATH)
 
 # PS1
 
