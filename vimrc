@@ -7,18 +7,29 @@ if empty(glob('~/.vim/autoload/plug.vim'))  " auto install
 endif
 
 call plug#begin('~/.vim/plugged')
+
+" sensible defaults
 Plug 'tpope/vim-sensible'
-Plug 'psf/black'
-Plug 'ycm-core/YouCompleteMe', { 'do': './install.py' }
+" finder
 Plug 'ctrlpvim/ctrlp.vim'
+" commenting
 Plug 'tomtom/tcomment_vim'
+" easy tables (:TableModeToggle)
 Plug 'dhruvasagar/vim-table-mode'
+
+" code formatting
 Plug 'google/vim-maktaba'
 Plug 'google/vim-codefmt'
 Plug 'google/vim-glaive'
-Plug 'bazelbuild/vim-bazel'
+" code autocomplete
+Plug 'ycm-core/YouCompleteMe', { 'do': 'python install.py --all' }
+" golang
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+
 call plug#end()
+
+" python
+"Plug 'psf/black'
 
 " plugin behavior
 """"""""""""""""
@@ -52,16 +63,19 @@ set undodir=~/.vim/undodir
 " google/vim-codefmt
 augroup autoformat_settings
   autocmd FileType bzl AutoFormatBuffer buildifier
-  autocmd FileType c,cpp,proto,javascript AutoFormatBuffer clang-format
+  autocmd FileType c,cpp,proto,javascript,arduino AutoFormatBuffer clang-format
   autocmd FileType dart AutoFormatBuffer dartfmt
   autocmd FileType go AutoFormatBuffer gofmt
   autocmd FileType gn AutoFormatBuffer gn
-  autocmd FileType html,css,sass,scss,less,json,template,vue AutoFormatBuffer js-beautify
+  autocmd FileType html,css,sass,scss,less,json,template AutoFormatBuffer js-beautify
   autocmd FileType java AutoFormatBuffer google-java-format
   autocmd FileType python AutoFormatBuffer yapf
   autocmd FileType rust AutoFormatBuffer rustfmt
   autocmd FileType vue AutoFormatBuffer prettier
 augroup END
+
+" golang
+let g:go_fmt_command = "goimports"
 
 " markdown
 let g:markdown_fenced_languages = ['python', 'bash=sh']
