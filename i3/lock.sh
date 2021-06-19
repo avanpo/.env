@@ -3,16 +3,20 @@
 # Don't lock if we have an argument "nofullscreen" and we are fullscreen.
 if [[ $1 = "nofullscreen" ]]; then
 	active_win_id="$(xprop -root _NET_ACTIVE_WINDOW | cut -d ' ' -f 5)"
-	xprop -id ${active_win_id} | grep _NET_WM_STATE_FULLSCREEN && exit 0
+	fullscreen="$(xprop -id ${active_win_id} | grep _NET_WM_STATE_FULLSCREEN)"
+	if [[ "$fullscreen" ]]; then
+		echo "Detected fullscreen for active window ${active_win_id}, not locking."
+		exit 0
+	fi
 fi
+
+echo "Locking screen."
 
 display_regex="([0-9]+)x([0-9]+)\\+([0-9]+)\\+([0-9]+)"
 image_regex="([0-9]+)x([0-9]+)"
 
 img="$HOME/.env/i3/lock.png"
 lockbg="/tmp/i3lock.png"
-
-(( $# )) && { img=$1; }
 
 scrot "$lockbg"
 
