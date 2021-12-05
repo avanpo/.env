@@ -10,8 +10,13 @@ if [ "$SETUP" != "laptop" ]; then
 	exit 0
 fi
 
-laptop=eDP1
-external=
+laptop="$(xrandr | grep ' primary' | awk '{print $1;}')"
+external=""
+
+if [ -z "$laptop" ]; then
+	echo "outputs.sh: Exiting; no laptop screen found."
+	exit 1
+fi
 
 echo "output.sh: Starting xrandr loop."
 
