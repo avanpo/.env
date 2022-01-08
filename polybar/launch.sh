@@ -17,13 +17,17 @@ wireless="$(iwctl device list | grep station | head -1 | awk '{print $1}')"
 wired="$(ip link show | awk -F: '$0 !~ "lo|vir|wl|tun|^[^0-9]"{print $2}' | tail -1 | xargs)"
 echo "launch.sh: Found wireless ($wireless) and wired ($wired) network interfaces."
 
+# Get backlight card.
+backlight="$(basename "$(find /sys/class/backlight/ -mindepth 1 -print -quit)")"
+[[ ! -z "$backlight" ]] && echo "launch.sh: Found backlight card ($backlight)."
+
 # Launch bar(s)
 if type "xrandr" > /dev/null; then
 	for m in $(xrandr --query | grep " connected" | cut -d" " -f1); do
-		MONITOR=$m WIRELESS_INTERFACE=$wireless WIRED_INTERFACE=$wired polybar main &
+		MONITOR="$m" WIRELESS_INTERFACE="$wireless" WIRED_INTERFACE="$wired" BACKLIGHT="$backlight" polybar main &
 	done
 else
-	WIRELESS_INTERFACE=$wireless WIRED_INTERFACE=$wired polybar main &
+	WIRELESS_INTERFACE="$wireless" WIRED_INTERFACE="$wired" BACKLIGHT="$backlight" polybar main &
 fi
 
 echo "launch.sh: Polybar launched."

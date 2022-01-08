@@ -14,8 +14,12 @@ city = os.getenv('OPENWEATHERMAP_LOCATION', '')
 api_key = os.getenv('OPENWEATHERMAP_API_KEY', '')
 
 try:
-    weather = eval(str(urllib.request.urlopen('https://api.openweathermap.org/data/2.5/weather?q={}&APPID={}'.format(city, api_key)).read())[2:-1])
-except urllib.error.URLError:
+    weather = eval(
+        str(
+            urllib.request.urlopen(
+                'https://api.openweathermap.org/data/2.5/weather?q={}&APPID={}'
+                .format(city, api_key)).read())[2:-1])
+except Exception:
     sys.exit(0)
 
 currWeather = weather['weather'][0]
@@ -23,23 +27,23 @@ currWeather = weather['weather'][0]
 main = currWeather['main']
 
 icons = {
-        'bars': '',
-        'bolt': '',
-        'cloud': '',
-        'droplet': '',
-        'snowflake': '',
-        'sun': '',
+    'bars': '',
+    'bolt': '',
+    'cloud': '',
+    'droplet': '',
+    'snowflake': '',
+    'sun': '',
 }
 
 weather_to_icon_map = {
-        'Clear': 'sun',
-        'Clouds': 'cloud',
-        'Snow': 'snowflake',
-        'Drizzle': 'droplet',
-        'Rain': 'droplet',
-        'Mist': 'bars',
-        'Haze': 'bars',
-        'Thunderstorm': 'bolt',
+    'Clear': 'sun',
+    'Clouds': 'cloud',
+    'Snow': 'snowflake',
+    'Drizzle': 'droplet',
+    'Rain': 'droplet',
+    'Mist': 'bars',
+    'Haze': 'bars',
+    'Thunderstorm': 'bolt',
 }
 
 icon = icons[weather_to_icon_map.get(main, 'cloud')]

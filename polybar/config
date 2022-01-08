@@ -22,7 +22,7 @@ fixed-center = true
 line-size = 0
 background = ${colors.bg}
 foreground = ${colors.text}
-tray-position =
+tray-position = none
 
 font-0 = DejaVu Sans Mono:size=12:weight=bold;3
 font-1 = FontAwesome 5 Free:style=Solid:size=11;3
@@ -30,7 +30,7 @@ font-2 = FontAwesome:pixelsize=11;3
 
 modules-left = i3
 modules-center = weather
-modules-right = pulseaudio backlight xbacklight wlan eth vpn battery date
+modules-right = pulseaudio backlight wlan eth vpn battery date
 
 [module/i3]
 type = internal/i3
@@ -82,15 +82,7 @@ exec = ~/.env/polybar/vpn.sh
 
 [module/backlight]
 type = internal/backlight
-card = amdgpu_bl0
-format = " <label>"
-label = %percentage%%
-format-foreground = ${colors.icon}
-format-padding = 1
-label-foreground = ${colors.text}
-
-[module/xbacklight]
-type = internal/xbacklight
+card = ${env:BACKLIGHT:}
 format = " <label>"
 label = %percentage%%
 format-foreground = ${colors.icon}
