@@ -16,7 +16,7 @@ export LESSHISTFILE=/dev/null
 
 # path
 
-export PATH="$PATH:$HOME/go/bin:$HOME/.env/bin"
+export PATH="$PATH:$HOME/go/bin:$HOME/.env/bin:$HOME/.local/bin"
 export GOPATH=$(go env GOPATH)
 
 # PS1
@@ -61,6 +61,9 @@ alias vpn='sudo openvpn --config ~/.config/client.ovpn'
 
 alias diskspace='df -h'
 alias dirspace='du -sh *'
+
+alias dockerkill='docker kill $(docker ps -q)'
+alias dockerrm='docker rm $(docker ps -a -q)'
 
 # functions
 
