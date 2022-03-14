@@ -14,7 +14,7 @@ while pgrep -x polybar >/dev/null; do sleep 1; done
 # Get network interfaces. For wired, take the last interface if there are
 # multiple. Some USB to Ethernet adaptors create their own.
 wireless="$(iwctl device list | grep station | head -1 | awk '{print $1}')"
-wired="$(ip link show | awk -F: '$0 !~ "lo|vir|wl|tun|^[^0-9]"{print $2}' | tail -1 | xargs)"
+wired="$(ip link show | awk -F: '$0 !~ "lo|vir|wl|tun|docker|^[^0-9]"{print $2}' | tail -1 | xargs)"
 echo "launch.sh: Found wireless ($wireless) and wired ($wired) network interfaces."
 
 # Get backlight card.

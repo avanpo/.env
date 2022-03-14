@@ -4,7 +4,7 @@
 
 HISTCONTROL=ignoreboth
 HISTSIZE=
-HISTFILESIZE=
+HISTFILESIZE=1000000
 shopt -s histappend
 
 set -o vi
