@@ -82,7 +82,7 @@ if [[ $1 == desktop ]]; then
 	linkcf i3/config
 	linkcf gtk-3.0/settings.ini
 	linkcf mpd/mpd.conf
-	linkcf polybar/config
+	linkcf polybar/config.ini
 	linkcf rofi/config
 	linkcf zathura/zathurarc
 fi
