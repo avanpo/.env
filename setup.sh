@@ -44,6 +44,7 @@ if [[ $1 == desktop ]]; then
 	mkdir -p .config/i3
 	mkdir -p .config/gtk-3.0
 	mkdir -p .config/mpd/playlists
+	mkdir -p .config/ncmpcpp
 	mkdir -p .config/polybar
 	mkdir -p .config/rofi
 	mkdir -p .config/zathura
@@ -82,6 +83,7 @@ if [[ $1 == desktop ]]; then
 	linkcf i3/config
 	linkcf gtk-3.0/settings.ini
 	linkcf mpd/mpd.conf
+	linkcf ncmpcpp/bindings
 	linkcf polybar/config.ini
 	linkcf rofi/config
 	linkcf zathura/zathurarc

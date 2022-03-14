@@ -1,0 +1,5 @@
+def_key "alt-up"
+  page_up
+
+def_key "alt-down"
+  page_down
