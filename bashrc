@@ -27,11 +27,12 @@ GRN="\[\e[32m\]"
 BLUE="\[\e[34m\]"
 
 HOST="\h"
-if [[ "$SSH_CLIENT" ]]; then
-	HOST=$BLUE$HOST
+HOST="$(echo ${HOST} | cut -d '.' -f 1-2)"
+if [[ "${SSH_CLIENT}" ]]; then
+	HOST=${BLUE}${HOST}
 fi
 
-PS1=$BOLD$GRN'\u@'$HOST$RST':'$BOLD$BLUE'\w'$RST'\$ '
+PS1=${BOLD}${GRN}'\u@'${HOST}${RST}':'${BOLD}${BLUE}'\w'${RST}'\$ '
 
 # aliases
 
