@@ -51,9 +51,9 @@ def fetch_weather_and_temp(lat, lon):
     ).read().decode()
     response = json.loads(raw)
     weather = response['weather'][0]['main']  # first (only) element is current
-    temp_in_kelvin = response['main']['temp']
-    temp = round(float(temp_in_kelvin) - 272.15)
-    return weather, temp
+    temp_in_kelvin = float(response['main']['temp'])
+    temp_in_celsius = round(temp_in_kelvin - 272.15)
+    return weather, temp_in_celsius
 
 
 try:
