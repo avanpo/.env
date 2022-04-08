@@ -1,52 +1,68 @@
 #!/usr/bin/env python3
 #
-# Outputs an icon with the weather and temperature in Celsius.
-#
-# Since it is designed for a status bar, it fails silently without output. This
-# way the bar is not populated with an ugly error message.
+# Outputs a weather icon and temperature in Celsius.
 
 import json
 import os
 import sys
 import urllib.request
 
-city = os.getenv('OPENWEATHERMAP_LOCATION', '')
-api_key = os.getenv('OPENWEATHERMAP_API_KEY', '')
+_OPENWEATHERMAP_KEY = os.getenv('OPENWEATHERMAP_API_KEY', '')
+_MOZILLA_KEY = 'geoclue'
 
-try:
-    weather = eval(
-        str(
-            urllib.request.urlopen(
-                'https://api.openweathermap.org/data/2.5/weather?q={}&APPID={}'
-                .format(city, api_key)).read())[2:-1])
-except Exception:
-    sys.exit(0)
-
-currWeather = weather['weather'][0]
-
-main = currWeather['main']
-
-icons = {
+_ICONS = {
     'bars': '',
-    'bolt': '',
+    'bolt': '',
     'cloud': '',
     'droplet': '',
+    'smoke': '',
     'snowflake': '',
     'sun': '',
+    'tornado': '',
+    'unknown': '',
 }
-
-weather_to_icon_map = {
+_WEATHER_TO_ICONS = {
     'Clear': 'sun',
     'Clouds': 'cloud',
-    'Snow': 'snowflake',
     'Drizzle': 'droplet',
-    'Rain': 'droplet',
-    'Mist': 'bars',
+    'Dust': 'bars',
+    'Fog': 'bars',
     'Haze': 'bars',
+    'Mist': 'bars',
+    'Rain': 'droplet',
+    'Smoke': 'smoke',
+    'Snow': 'snowflake',
     'Thunderstorm': 'bolt',
+    'Tornado': 'tornado',
 }
 
-icon = icons[weather_to_icon_map.get(main, 'cloud')]
-temp = int(float(weather['main']['temp']) - 272.15)
 
-print('%s %s, %i°C' % (icon, main, temp))
+def fetch_lat_lon():
+    raw = urllib.request.urlopen(
+        f'https://location.services.mozilla.com/v1/geolocate?key={_MOZILLA_KEY}'
+    ).read().decode()
+    loc = json.loads(raw)['location']
+    return loc['lat'], loc['lng']
+
+
+def fetch_weather_and_temp(lat, lon):
+    raw = urllib.request.urlopen(
+        f'https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&APPID={_OPENWEATHERMAP_KEY}'
+    ).read().decode()
+    response = json.loads(raw)
+    weather = response['weather'][0]['main']  # first (only) element is current
+    temp_in_kelvin = response['main']['temp']
+    temp = round(float(temp_in_kelvin) - 272.15)
+    return weather, temp
+
+
+try:
+    lat, lon = fetch_lat_lon()
+    weather, temp = fetch_weather_and_temp(lat, lon)
+except Exception:
+    # Don't print anything on failure, we don't want to mess up the status bar.
+    sys.exit(0)
+
+icon = _ICONS[_WEATHER_TO_ICONS.get(weather, 'unknown')]
+
+print('%s %s, %i°C' % (icon, weather, temp))

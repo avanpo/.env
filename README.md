@@ -40,7 +40,6 @@ optional vars:
 
 ```
 # for the polybar weather script
-export OPENWEATHERMAP_LOCATION=city
 export OPENWEATHERMAP_API_KEY=key
 ```
 

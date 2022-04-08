@@ -19,17 +19,14 @@ Plug 'dhruvasagar/vim-table-mode'
 
 " code formatting
 Plug 'google/vim-maktaba'
-Plug 'google/vim-codefmt'
 Plug 'google/vim-glaive'
+Plug 'google/vim-codefmt'
 " code autocomplete
 Plug 'ycm-core/YouCompleteMe', { 'do': 'python install.py --all' }
 " golang
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'fatih/vim-go', { 'for': 'go', 'do': ':GoUpdateBinaries' }
 
 call plug#end()
-
-" python
-"Plug 'psf/black'
 
 " plugin behavior
 """"""""""""""""
@@ -83,3 +80,11 @@ au FileType markdown setlocal textwidth=80
 
 " yaml
 au FileType yaml,yml setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+
+" load machine specific config
+""""""""""""""""
+try
+  source '~/.config/vimrc'
+catch
+  " no problem
+endtry
