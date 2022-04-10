@@ -13,7 +13,8 @@ if command -v pacman >/dev/null 2>&1; then
 	# arch specific
 	if [[ $1 == desktop ]]; then
 		# desktop environment
-		sudo pacman -S --noconfirm compton feh htop i3 i3lock ranger rofi scrot ttf-dejavu ttf-font-awesome xautolock xbacklight
+		sudo pacman -S --noconfirm compton feh htop i3 i3lock python-pywal \
+			ranger rofi scrot ttf-dejavu ttf-font-awesome xautolock xbacklight
 		# software
 		sudo pacman -S --noconfirm firefox keepassx2 irssi transmission
 		# media
@@ -32,6 +33,7 @@ elif command -v apt >/dev/null 2>&1; then
 		sudo apt install -y compton feh htop i3-wm i3lock ranger rofi scrot ttf-dejavu fonts-font-awesome xautolock xbacklight
 		sudo apt install -y firefox keepassx2 irssi transmission
 		sudo apt install -y beep ffmpeg gimp mpc mpd mpv ncmpcpp zathura
+		pip install pywal
 	fi
 fi
 

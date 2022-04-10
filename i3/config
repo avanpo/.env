@@ -140,17 +140,19 @@ set_from_resource $wht .color7 #ffffff
 set_from_resource $gry .color8 #888888
 
 # appearance
-default_border pixel 2
-default_floating_border pixel 0
+default_border pixel 3
+default_floating_border none
 floating_minimum_size 10 x 10
 hide_edge_borders smart
 
 #                       border background text indicator child border
 client.focused          $blu   $blk       $wht $blu      $blu
-client.focused_inactive $gry   $blk       $wht $gry      $gry
-client.unfocused        $gry   $blk       $wht $gry      $gry
+client.focused_inactive $gry   $blk       $wht $blk      $blk
+client.unfocused        $gry   $blk       $wht $blk      $blk
 client.urgent           $red   $blk       $wht $red      $red
-client.placeholder      $gry   $blk       $wht $gry      $gry
+client.placeholder      $gry   $blk       $wht $blk      $blk
+
+client.background       $blk
 
 # startup execs
 exec_always --no-startup-id "$HOME/.env/display/fehbg.sh"

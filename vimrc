@@ -17,6 +17,9 @@ Plug 'tomtom/tcomment_vim'
 " easy tables (:TableModeToggle)
 Plug 'dhruvasagar/vim-table-mode'
 
+" theme
+Plug 'dylanraps/wal.vim'
+
 " code formatting
 Plug 'google/vim-maktaba'
 Plug 'google/vim-glaive'

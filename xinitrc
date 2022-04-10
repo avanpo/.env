@@ -19,11 +19,11 @@ fi
 xset -b
 xsetroot -solid "#000000"
 
-# set background
-$HOME/.env/display/fehbg.sh
-
 # start urxvtd
 urxvtd -q -f -o
+
+# set background and colors
+$HOME/.env/display/fehbg.sh
 
 # set up env
 exec i3

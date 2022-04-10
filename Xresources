@@ -2,47 +2,6 @@
 
 *.font: xft:DejaVu Sans Mono:size=12
 
-! === colors ===
-
-*.background: #1e1e20
-*.foreground: #bcbdb6
-
-! BLK
-*.color0: #3c3a3a
-*.color8: #555555
-
-! RED
-*.color1: #ee6a6b
-*.color9: #df7a7c
-
-! GRN
-*.color2: #86ffa4
-*.color10: #97dfa9
-
-! YEL
-*.color3: #f3ff7b
-*.color11: #f0fa8b
-
-! BLU
-*.color4: #69baec
-*.color12: #98c3de
-
-! MAG
-*.color5: #ff83cc
-*.color13: #d389b5
-
-! CYN
-*.color6: #4ddcfa
-*.color14: #8cebff
-
-! WHT
-*.color7: #ededec
-*.color15: #ededec
-
-! bar backgrounds
-*.bar-bg: #000000
-*.bar-bg-active: #1e1e20
-
 ! === uxrvt ===
 
 ! general
