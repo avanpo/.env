@@ -87,6 +87,6 @@ if [[ $1 == desktop ]]; then
 	linkcf mpd/mpd.conf
 	linkcf ncmpcpp/bindings
 	linkcf polybar/config.ini
-	linkcf rofi/config
+	linkcf rofi/config.rasi
 	linkcf zathura/zathurarc
 fi

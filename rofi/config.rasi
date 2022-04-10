@@ -1,0 +1,9 @@
+window {
+    width: 600px;
+}
+listview {
+    lines: 6;
+    scrollbar: false;
+}
+
+@import "~/.cache/wal/colors-rofi-dark"
