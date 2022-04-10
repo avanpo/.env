@@ -156,7 +156,7 @@ client.background       $blk
 
 # startup execs
 exec_always --no-startup-id "$HOME/.env/display/fehbg.sh"
-exec --no-startup-id "picom --config $HOME/.env/picom/picom.conf"
+exec_always --no-startup-id "picom --config $HOME/.env/picom/picom.conf"
 exec_always --no-startup-id "$HOME/.env/polybar/launch.sh"
 exec --no-startup-id "$HOME/.env/display/outputs.sh"
 
