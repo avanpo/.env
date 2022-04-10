@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-theme="${HOME}/.env/media/morning-forest.jpg"
+theme="${HOME}/.env/media/ocean-to-ocean.jpg"
 
 path="${HOME}/.env/media/default.jpg"
 if [ -e "${theme}" ]; then
