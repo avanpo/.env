@@ -59,6 +59,14 @@ au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g
 set undofile
 set undodir=~/.vim/undodir
 
+" load machine specific config
+""""""""""""""""
+try
+  source ~/.config/vimrc
+catch
+  " no problem
+endtry
+
 " file types
 """"""""""""""""
 
@@ -85,11 +93,3 @@ au FileType markdown setlocal textwidth=80
 
 " yaml
 au FileType yaml,yml setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-
-" load machine specific config
-""""""""""""""""
-try
-  source '~/.config/vimrc'
-catch
-  " no problem
-endtry
