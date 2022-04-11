@@ -49,9 +49,7 @@ set number                             " show line numbers
 set display=lastline                   " show truncated line instead of @
 set display+=uhex                      " show unprintable ascii as hex
 
-try
-  colorscheme wal                      " use pywal generated color scheme
-endtry
+silent! colorscheme wal                " use pywal generated color scheme
 
 " history
 """"""""""""""""

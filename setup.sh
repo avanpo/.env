@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Run with "desktop" as the second argument to install desktop stuff.
+# Run with "desktop" as the second argument to install desktop software.
 
 # install software
 
@@ -90,3 +90,7 @@ if [[ $1 == desktop ]]; then
 	linkcf rofi/config.rasi
 	linkcf zathura/zathurarc
 fi
+
+# install plugins
+
+vim +PlugInstall +qall
