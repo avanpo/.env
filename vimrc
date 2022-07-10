@@ -42,6 +42,8 @@ set clipboard=unnamedplus              " use system clipboard
 set wildmenu                           " enhanced cli completion
 set wildmode=longest:full,full         " complete longest on tab, full on 2nd
 
+set nojoinspaces                       " single space after punctuation
+
 " appearance
 """"""""""""""""
 set number                             " show line numbers
