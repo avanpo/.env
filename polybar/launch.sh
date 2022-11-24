@@ -20,19 +20,19 @@ elif command -v nmcli &> /dev/null; then
 	wireless="$(nmcli d status | grep wifi | grep -v disconnected | head -1 | cut -d ' ' -f 1)"
 fi
 wired="$(ip link show | awk -F: '$0 !~ "lo|vir|wl|tun|docker|^[^0-9]"{print $2}' | tail -1 | xargs)"
-echo "launch.sh: Found wireless ($wireless) and wired ($wired) network interfaces."
+echo "launch.sh: Got wireless '$wireless' and wired '$wired' network interfaces."
 
 # Get backlight card.
 backlight="$(basename "$(find /sys/class/backlight/ -mindepth 1 -print -quit)")"
-[[ ! -z "$backlight" ]] && echo "launch.sh: Found backlight card ($backlight)."
+echo "launch.sh: Got backlight card '$backlight'."
 
 # Launch bar(s)
 if type "xrandr" > /dev/null; then
 	for m in $(xrandr --query | grep " connected" | cut -d" " -f1); do
-		MONITOR="$m" WIRELESS_INTERFACE="$wireless" WIRED_INTERFACE="$wired" BACKLIGHT="$backlight" polybar main -c "~/.config/polybar/config.ini" &
+		MONITOR="$m" WIRELESS_INTERFACE="$wireless" WIRED_INTERFACE="$wired" BACKLIGHT="$backlight" polybar main -c "~/.config/polybar/config.ini" 2> /tmp/polybar.log &
 	done
 else
-	WIRELESS_INTERFACE="$wireless" WIRED_INTERFACE="$wired" BACKLIGHT="$backlight" polybar main -c "~/.config/polybar/config.ini" &
+	WIRELESS_INTERFACE="$wireless" WIRED_INTERFACE="$wired" BACKLIGHT="$backlight" polybar main -c "~/.config/polybar/config.ini" /tmp/polybar.log &
 fi
 
 echo "launch.sh: Polybar launched."
