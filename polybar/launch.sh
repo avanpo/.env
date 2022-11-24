@@ -26,13 +26,16 @@ echo "launch.sh: Got wireless '$wireless' and wired '$wired' network interfaces.
 backlight="$(basename "$(find /sys/class/backlight/ -mindepth 1 -print -quit)")"
 echo "launch.sh: Got backlight card '$backlight'."
 
+today="$(date '+%Y-%m-%d')"
+log_file="/tmp/polybar.$today.log"
+
 # Launch bar(s)
 if type "xrandr" > /dev/null; then
 	for m in $(xrandr --query | grep " connected" | cut -d" " -f1); do
-		MONITOR="$m" WIRELESS_INTERFACE="$wireless" WIRED_INTERFACE="$wired" BACKLIGHT="$backlight" polybar main -c "~/.config/polybar/config.ini" 2> /tmp/polybar.log &
+		MONITOR="$m" WIRELESS_INTERFACE="$wireless" WIRED_INTERFACE="$wired" BACKLIGHT="$backlight" polybar main -c "~/.config/polybar/config.ini" 2>> "$log_file" &
 	done
 else
-	WIRELESS_INTERFACE="$wireless" WIRED_INTERFACE="$wired" BACKLIGHT="$backlight" polybar main -c "~/.config/polybar/config.ini" /tmp/polybar.log &
+	WIRELESS_INTERFACE="$wireless" WIRED_INTERFACE="$wired" BACKLIGHT="$backlight" polybar main -c "~/.config/polybar/config.ini" 2>> "$log_file" &
 fi
 
 echo "launch.sh: Polybar launched."
