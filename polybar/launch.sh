@@ -15,7 +15,7 @@ while pgrep -x polybar >/dev/null; do sleep 1; done
 # multiple. Some USB to Ethernet adaptors create their own.
 wireless=""
 if command -v iwctl &> /dev/null; then
-	wireless="$(iwctl device list | grep station | head -1 | awk '{print $1}')"
+	wireless="$(iwctl device list | grep station | head -1 | awk '{print $2}')"
 elif command -v nmcli &> /dev/null; then
 	wireless="$(nmcli d status | grep wifi | grep -v disconnected | head -1 | cut -d ' ' -f 1)"
 fi
