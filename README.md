@@ -112,3 +112,7 @@ We use zathura for PDFs and other documents.
 $ sudo pacman -S zathura zathura-djvu zathura-pdf-mupdf
 $ xdg-mime default org.pwmt.zathura.desktop application/pdf
 ```
+
+## Todo
+
+* Pip install in setup.

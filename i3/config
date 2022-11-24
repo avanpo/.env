@@ -58,7 +58,7 @@ bindsym $mod+Shift+g focus child
 # workspace settings
 ###########################################################
 
-# press $mod+x again to return to previous window
+# press $mod+[0-9] again to return to previous window
 workspace_auto_back_and_forth yes
 
 # switch to workspace
@@ -154,11 +154,14 @@ client.placeholder      $gry   $blk       $wht $blk      $blk
 
 client.background       $blk
 
-# startup execs
+# display execs
 exec_always --no-startup-id "$HOME/.env/display/fehbg.sh"
 exec_always --no-startup-id "picom --config $HOME/.env/picom/picom.conf"
 exec_always --no-startup-id "$HOME/.env/polybar/launch.sh"
-exec --no-startup-id "$HOME/.env/display/outputs.sh"
+
+# monitor keybindings
+bindsym $mod+n exec --no-startup-id "$HOME/.env/display/monitor.py reset"
+bindsym $mod+m exec --no-startup-id "$HOME/.env/display/monitor.py external"
 
 # lock screen
 exec --no-startup-id xautolock -time 10 -locker "$HOME/.env/i3/lock.sh nofullscreen"
@@ -187,10 +190,10 @@ bindsym $mod+XF86AudioRaiseVolume exec --no-startup-id "pactl -- set-source-volu
 bindsym XF86MonBrightnessDown exec --no-startup-id "xbacklight -dec 5"
 bindsym XF86MonBrightnessUp exec --no-startup-id "xbacklight -inc 5"
 
-bindSym XF86AudioPlay exec --no-startup-id "mpc toggle"
-bindSym XF86AudioPrevious exec --no-startup-id "mpc prev"
-bindSym XF86AudioNext exec --no-startup-id "mpc next"
-bindSym XF86AudioStop exec --no-startup-id "mpc stop"
+bindsym XF86AudioPlay exec --no-startup-id "mpc toggle"
+bindsym XF86AudioPrevious exec --no-startup-id "mpc prev"
+bindsym XF86AudioNext exec --no-startup-id "mpc next"
+bindsym XF86AudioStop exec --no-startup-id "mpc stop"
 
 bindsym Control+Down exec --no-startup-id "mpc toggle"
 bindsym Control+Left exec --no-startup-id "mpc prev"
