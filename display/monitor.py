@@ -4,42 +4,76 @@
 #
 # I should probably use the python-xlib library here but that's too much work
 # to figure out right now.
+#
+# Right now the script is pretty dumb and assumes the first listed display is
+# the laptop display.
 
 import subprocess
 import sys
+from dataclasses import dataclass
 
 MM_TO_INCH = 25.4
 
 
-def all_monitors():
-    print("not yet implemented")
+@dataclass
+class Monitor:
+    name: str
+    primary: bool
+    res_x: int = 0
+    res_y: int = 0
+    physical_mm_x: float = 0
+    physical_mm_y: float = 0
+
+    def dpi(self) -> int:
+        dpi_x = self.res_x / (self.physical_mm_x / MM_TO_INCH)
+        dpi_y = self.res_y / (self.physical_mm_y / MM_TO_INCH)
+        return round((dpi_x + dpi_y) / 2.0)
+
+
+def primary():
+    monitors = parse_xrandr()
+    if len(monitors) == 0:
+        print(f"No monitors found.")
+        sys.exit()
+    primary = monitors[0]
+
+    cmd = ["xrandr"]
+    # Turn off all other monitors.
+    for m in monitors[1:]:
+        cmd.extend(["--output", m.name, "--off"])
+    cmd.extend(["--output", primary.name, "--auto"])
+
+    print(f"Enabling {primary.name}, disabling all others.")
+    cp = subprocess.run(cmd, stdout=sys.stdout, stderr=sys.stderr)
+    if cp.returncode != 0:
+        print("Got {cp.returncode} status code from xrandr.")
+        return False
+    return False
 
 
 def external():
-    print("Getting monitors and calculating dpi...")
-    monitors = get_monitors()
+    monitors = parse_xrandr()
     if len(monitors) < 2:
         print(f"Failed to find external monitor: {monitors}")
         sys.exit()
     primary = monitors[0]
     external = monitors[1]
-    dpi = calc_dpi(external)
-    print(f"Enabling {external['name']}, disabling {primary['name']}.")
+
+    print(f"Enabling {external.name}, disabling {primary.name}.")
     cp = subprocess.run([
-        "xrandr", "--dpi",
-        str(dpi), "--output", primary["name"], "--off", "--output",
-        external["name"]
+        "xrandr", "--output", primary.name, "--off", "--output", external.name,
+        "--auto"
     ],
                         stdout=sys.stdout,
                         stderr=sys.stderr)
-    if cp.returncode == 0:
-        return True
+    if cp.returncode != 0:
+        print("Got {cp.returncode} status code from xrandr.")
+        return False
     return False
 
 
-def laptop():
+def all_monitors():
     print("not yet implemented")
-    return False
 
 
 def reset():
@@ -52,48 +86,59 @@ def reset():
     return False
 
 
-def calc_dpi(monitor):
-    dpi_x = monitor["resolution-x"] / (monitor["physical-mm-x"] / MM_TO_INCH)
-    dpi_y = monitor["resolution-y"] / (monitor["physical-mm-y"] / MM_TO_INCH)
-    return round((dpi_x + dpi_y) / 2.0)
-
-
-def get_monitors():
-    cp = subprocess.run(["xrandr", "--listmonitors"], capture_output=True)
+def parse_xrandr():
+    cp = subprocess.run(["xrandr", "-q"], capture_output=True)
     if cp.returncode != 0:
         print(f"Failed to run xrandr: {completed_process.stderr}")
         sys.exit()
     lines = cp.stdout.decode('utf-8').splitlines()
-    result = []
-    for line in lines[1:]:
-        tokens = line.strip().split()
-        try:
-            dimensions = [
-                d.split("/") for d in tokens[-2].split("+")[0].split("x")
-            ]
-        except:
-            print(f"Failed to parse dimensions: {tokens[-2]}")
-            sys.exit()
 
-        result.append({
-            "name": tokens[-1],
-            "resolution-x": int(dimensions[0][0]),
-            "resolution-y": int(dimensions[1][0]),
-            "physical-mm-x": float(dimensions[0][1]),
-            "physical-mm-y": float(dimensions[1][1]),
-        })
+    result = []
+    for line in lines:
+        tokens = line.strip().split()
+        if len(tokens) < 2 or tokens[1] != "connected":
+            continue
+
+        name = tokens[0]
+        primary = False
+        if "primary" in tokens:
+            primary = True
+        result.append(Monitor(name, primary))
+
+        # What a terrible a hack...
+        resolution = tokens[2]
+        if primary:
+            resolution = tokens[3]
+
+        # Get resolution
+        if "x" in resolution:
+            res_x, res_y = [
+                int(d) for d in resolution.split("+")[0].split("x")
+            ]
+            result[-1].res_x = res_x
+            result[-1].res_y = res_y
+
+        # Get physical dimensions
+        if tokens[-1].endswith("mm") and tokens[-3].endswith("mm"):
+            result[-1].physical_mm_x = float(tokens[-3][:-2])
+            result[-1].physical_mm_y = float(tokens[-3][:-2])
+
     return result
 
 
 COMMANDS = {
-    "all": all_monitors,
+    "primary": primary,
     "external": external,
-    "laptop": laptop,
+    "all": all_monitors,
     "reset": reset
 }
 
 if len(sys.argv) != 2 or sys.argv[1] not in COMMANDS:
-    print(f"First argument must be one of {COMMANDS}.")
+    print(f"First argument must be one of {COMMANDS.keys()}.\n")
+
+    # Print monitors for debugging purposes.
+    for m in parse_xrandr():
+        print(m)
     sys.exit()
 
 restart_i3 = COMMANDS[sys.argv[1]]()

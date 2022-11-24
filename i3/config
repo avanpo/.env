@@ -160,7 +160,7 @@ exec_always --no-startup-id "picom --config $HOME/.env/picom/picom.conf"
 exec_always --no-startup-id "$HOME/.env/polybar/launch.sh"
 
 # monitor keybindings
-bindsym $mod+n exec --no-startup-id "$HOME/.env/display/monitor.py reset"
+bindsym $mod+n exec --no-startup-id "$HOME/.env/display/monitor.py primary"
 bindsym $mod+m exec --no-startup-id "$HOME/.env/display/monitor.py external"
 
 # lock screen
