@@ -27,7 +27,7 @@ class Monitor:
     physical_mm_y: float = 0
 
     def dpi(self) -> int:
-        if not physical_mm_x or not physical_mm_y:
+        if not self.physical_mm_x or not self.physical_mm_y:
             return 0
         dpi_x = self.res_x / (self.physical_mm_x / MM_TO_INCH)
         dpi_y = self.res_y / (self.physical_mm_y / MM_TO_INCH)
@@ -54,7 +54,8 @@ def primary():
     # Watch to get dpi info, since dimensions aren't present when the monitor
     # is off.
     primary = watch(primary)
-    run_xrandr(["--dpi", str(primary.dpi)])
+    print(f"Setting dpi to {primary.dpi()}.")
+    run_xrandr(["--dpi", str(primary.dpi())])
 
     return True
 
@@ -77,7 +78,8 @@ def external():
     # Watch to get dpi info, since dimensions aren't present when the monitor
     # is off.
     external = watch(external)
-    run_xrandr(["--dpi", str(external.dpi)])
+    print(f"Setting dpi to {external.dpi()}.")
+    run_xrandr(["--dpi", str(external.dpi())])
 
     return True
 
@@ -89,13 +91,7 @@ def all_monitors():
 
 def reset():
     print("Resetting monitor configuration.")
-    cp = subprocess.run(["xrandr", "-s", "0"],
-                        stdout=sys.stdout,
-                        stderr=sys.stderr)
-    if cp.returncode != 0:
-        print("Got {cp.returncode} status code from xrandr.")
-        return False
-    return True
+    return run_xrandr(["-s", "0"])
 
 
 def run_xrandr(args):
@@ -103,7 +99,7 @@ def run_xrandr(args):
                         stdout=sys.stdout,
                         stderr=sys.stderr)
     if cp.returncode != 0:
-        print("Got {cp.returncode} status code from xrandr.")
+        print(f"Got {cp.returncode} status code from xrandr.")
         return False
     return True
 
@@ -196,7 +192,7 @@ if len(sys.argv) != 2 or sys.argv[1] not in COMMANDS:
 
     # Print monitors for debugging purposes.
     for m in parse_xrandr():
-        print(m)
+        print(f"{m} DPI: '{m.dpi()}'")
     sys.exit()
 
 restart_i3 = COMMANDS[sys.argv[1]]()

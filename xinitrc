@@ -18,6 +18,7 @@ fi
 # x settings
 xset -b
 xsetroot -solid "#000000"
+[ "$DPI" ] && xrandr --dpi "$DPI"
 
 # start urxvtd
 urxvtd -q -f -o
