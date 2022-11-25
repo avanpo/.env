@@ -90,11 +90,6 @@ def external():
     return True
 
 
-def all_monitors():
-    print("not yet implemented")
-    return False
-
-
 def reset():
     print("Resetting monitor configuration.")
     return run_xrandr(["-s", "0"])
@@ -187,12 +182,7 @@ def parse_xrandr():
     return result
 
 
-COMMANDS = {
-    "primary": primary,
-    "external": external,
-    "all": all_monitors,
-    "reset": reset
-}
+COMMANDS = {"primary": primary, "external": external, "reset": reset}
 
 if len(sys.argv) != 2 or sys.argv[1] not in COMMANDS:
     print(f"First argument must be one of {COMMANDS.keys()}.\n")
