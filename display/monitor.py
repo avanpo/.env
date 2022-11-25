@@ -20,11 +20,17 @@ MM_TO_INCH = 25.4
 @dataclass
 class Monitor:
     name: str
-    primary: bool
+    connected: bool
+
     res_x: int = 0
     res_y: int = 0
     physical_mm_x: float = 0
     physical_mm_y: float = 0
+
+    def is_active(self) -> bool:
+        if self.connected or (self.res_x and self.res_y):
+            return True
+        return False
 
     def dpi(self) -> int:
         if not self.physical_mm_x or not self.physical_mm_y:
@@ -106,15 +112,15 @@ def run_xrandr(args):
 
 def extract_monitor(tokens):
     name = tokens[0]
-    primary = False
-    if "primary" in tokens:
-        primary = True
+    connected = False
+    if "connected" in tokens:
+        connected = True
 
-    result = Monitor(name, primary)
+    result = Monitor(name, connected)
 
     # What a terrible hack...
     resolution = tokens[2]
-    if primary:
+    if "primary" in tokens:
         resolution = tokens[3]
 
     # Get resolution
@@ -172,10 +178,11 @@ def parse_xrandr():
     result = []
     for line in lines:
         tokens = line.strip().split()
-        if len(tokens) < 2 or tokens[1] != "connected":
+        if len(tokens) < 2 or not tokens[1].endswith("connected"):
             continue
-
-        result.append(extract_monitor(tokens))
+        m = extract_monitor(tokens)
+        if m.is_active():
+            result.append(m)
 
     return result
 
@@ -191,6 +198,7 @@ if len(sys.argv) != 2 or sys.argv[1] not in COMMANDS:
     print(f"First argument must be one of {COMMANDS.keys()}.\n")
 
     # Print monitors for debugging purposes.
+    print("Monitors found:")
     for m in parse_xrandr():
         print(f"{m} DPI: '{m.dpi()}'")
     sys.exit()
