@@ -145,12 +145,12 @@ default_floating_border none
 floating_minimum_size 10 x 10
 hide_edge_borders smart
 
-#                       border background text indicator child border
-client.focused          $blu   $blk       $wht $blu      $blu
-client.focused_inactive $gry   $blk       $wht $blk      $blk
-client.unfocused        $gry   $blk       $wht $blk      $blk
-client.urgent           $red   $blk       $wht $red      $red
-client.placeholder      $gry   $blk       $wht $blk      $blk
+#                       border background text indicator child_border
+client.focused          $blu   $blk       $wht $mag      $mag
+client.focused_inactive $gry   $blk       $wht $grn      $grn
+client.unfocused        $gry   $blk       $wht $grn      $grn
+client.urgent           $blu   $blk       $wht $blu      $blu
+client.placeholder      $gry   $blk       $wht $grn      $grn
 
 client.background       $blk
 
