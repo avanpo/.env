@@ -14,6 +14,8 @@ export VISUAL='vim'
 export PAGER="less -RS"
 export LESSHISTFILE=/dev/null
 
+export QT_AUTO_SCREEN_SCALE_FACTOR=1
+
 # path
 
 export PATH="$PATH:$HOME/go/bin:$HOME/.env/bin:$HOME/.local/bin"
@@ -62,9 +64,6 @@ alias vpn='sudo openvpn --config ~/.config/client.ovpn'
 
 alias diskspace='df -h'
 alias dirspace='du -sh *'
-
-alias dockerkill='docker kill $(docker ps -q)'
-alias dockerrm='docker rm $(docker ps -a -q)'
 
 # functions
 
@@ -175,7 +174,6 @@ x2d() { echo "ibase=16;${1^^}" | bc; }
 x2b() { echo "ibase=16;obase=2;${1^^}" | bc; }
 b2d() { echo "ibase=2;${1}" | bc; }
 b2x() { echo "ibase=2;obase=10000;${1}" | bc | awk '{print tolower($0)}'; }
-ascii() { man 7 ascii; }
 
 time2date() { date -d @"$1"; }
 date2time() {
