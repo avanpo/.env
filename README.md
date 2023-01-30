@@ -1,6 +1,6 @@
 # env
 
-my linux setup. at home, this is arch. a work in progress
+My linux setup. At home, this is Arch. A work in progress.
 
 * wm: i3
 * bar: polybar
@@ -11,7 +11,7 @@ my linux setup. at home, this is arch. a work in progress
 * image viewer: feh
 * pdf viewer: zathura
 
-### installation
+### Installation
 
 WARNING: this will overwrite any existing dotfiles, so back them up first.
 
@@ -24,19 +24,22 @@ git clone https://github.com/avanpo/.env.git
 # ./.env/setup_server.sh
 ```
 
-installing to `~/.env` is required, all configs assume this to be the location of scripts and various media.
+Installing to `~/.env` is required, all configs assume this to be the location
+of scripts and various media.
 
-### configuration
+### Configuration
 
-all configuration custom to a machine should go into a file located at `~/.config/bashrc`. this file is sourced at the end of `~/.bashrc`.
+All configuration custom to a machine should go into a file located at
+`~/.config/bashrc`. This file is sourced at the end of `~/.bashrc`.
 
-for local machine installed using `setup.sh`, this file should contain the following environment variable:
+For local machine installed using `setup.sh`, this file should contain the
+following environment variable:
 
 ```
 export SETUP=laptop
 ```
 
-optional vars:
+Optional vars:
 
 ```
 # for the polybar weather script
@@ -111,6 +114,17 @@ We use zathura for PDFs and other documents.
 ```
 $ sudo pacman -S zathura zathura-djvu zathura-pdf-mupdf
 $ xdg-mime default org.pwmt.zathura.desktop application/pdf
+```
+
+### Text editor
+
+I use vim for all text editing. vim-plug is used for plugins. Some useful
+commands:
+
+```
+:PlugInstall // install new plugins
+:PlugUpdate  // update plugins
+:PlugUpgrade // upgrade vim-plug
 ```
 
 ## Todo
