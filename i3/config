@@ -209,7 +209,7 @@ bindsym Control+Right exec --no-startup-id "mpc next"
 bindsym $mod+b exec --no-startup-id "$HOME/.env/bin/vpn"
 
 # program keybindings
-for_window [class="URxvt" instance="floating"] border none, floating enable
+for_window [class="URxvt" instance="floating"] border none, floating enable, resize set 40 ppt 40 ppt, move position center
 bindsym $mod+Return exec --no-startup-id "urxvt"
 bindsym $mod+Shift+Return exec --no-startup-id "urxvt -name floating"
 bindsym $mod+Shift+backslash exec --no-startup-id "urxvt -name floating -e python"
