@@ -1,6 +1,6 @@
 ! === font  ===
 
-*.font: xft:DejaVu Sans Mono:size=10
+*.font: xft:DejaVu Sans Mono:size=7
 
 ! === uxrvt ===
 
@@ -15,7 +15,7 @@ URxvt.lineSpace: 1
 URxvt.letterSpace: -1
 URxvt.internalBorder: 10
 URxvt.scrollBar: false
-URxvt.geometry: 80x20
+URxvt.geometry: 80x-1
 
 ! behavior
 URxvt.saveLines: 65535
