@@ -12,7 +12,7 @@ if [[ -n $OPENVPN_CONFIG_PATH ]]; then
 	config_path="$OPENVPN_CONFIG_PATH"
 fi
 
-sudo_wrapper=(urxvt -name floating -geometry 40x1 -e sudo -p "password: ")
+sudo_wrapper=(urxvt -name prompt -geometry 40x1 -e sudo -p "password: ")
 
 if ! pgrep -x openvpn > /dev/null; then
 	# VPN not running, start it.

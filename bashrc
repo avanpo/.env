@@ -6,6 +6,7 @@ HISTCONTROL=ignoreboth
 HISTSIZE=
 HISTFILESIZE=1000000
 shopt -s histappend
+PROMPT_COMMAND="history -a;$PROMPT_COMMAND"
 
 set -o vi
 export EDITOR='vim'
