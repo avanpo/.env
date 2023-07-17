@@ -38,6 +38,7 @@ let g:ycm_autoclose_preview_window_after_completion = 1
 
 " behavior
 """"""""""""""""
+set belloff=all
 set clipboard=unnamedplus              " use system clipboard
 set wildmenu                           " enhanced cli completion
 set wildmode=longest:full,full         " complete longest on tab, full on 2nd

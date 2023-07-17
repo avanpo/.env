@@ -1,6 +1,6 @@
 ! === font  ===
 
-*.font: xft:DejaVu Sans Mono:size=7
+*.font: xft:DejaVu Sans Mono:size=10
 
 ! === uxrvt ===
 
