@@ -160,5 +160,3 @@ def handle_proc(result):
 
 
 remote_backup()
-
-local_backup()
