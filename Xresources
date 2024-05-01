@@ -24,6 +24,7 @@ URxvt.scrollWithBuffer: true
 URxvt.scrollTtyKeypress: true
 URxvt.url-launcher: xdg-open
 URxvt.matcher.button: 1
+URxvt.perl-ext-common:-confirm-paste
 
 ! plugins
 URxvt.perl-ext: default,matcher
