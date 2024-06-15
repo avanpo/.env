@@ -2,6 +2,7 @@
 #
 # Borg (and external SSD) backup script.
 
+import argparse
 import datetime
 import getpass
 import os
@@ -11,35 +12,23 @@ import sys
 _BACKUP_DIR = "/home/user/files"
 
 
-def remote_backup():
-    print("-------------")
-    print("REMOTE BACKUP")
-    print("-------------")
-
-    repo = input("Please enter your borg repo location: ")
+def borg():
+    if "BORG_REPO" in os.environ:
+        repo = os.environ["BORG_REPO"]
+    else:
+        repo = input("Please enter your borg repo location: ")
     borg_pass = getpass.getpass("Please enter your borg passphrase: ")
-
     env = os.environ.copy()
     env["BORG_PASSPHRASE"] = borg_pass
+    return repo, env
 
-    # Get some stats.
-    last_version = get_remote_stats(repo, env)
-    get_remote_stats_for_version(repo, last_version, env)
 
-    # Do the backup.
-    new_version = datetime.date.today().strftime("%Y_%m_%d")
-    if new_version == last_version:
-        print("Already did a remote backup today! Skipping.")
-    else:
-        print("Performing backup...")
-        cp = subprocess.run(
-            [
-                "borg", "create", "--progress", "--stats",
-                f"{repo}::{new_version}", _BACKUP_DIR
-            ],
-            env=env,
+def handle_proc(result):
+    if result.returncode != 0:
+        print(
+            f"ERROR: Exit code {result.returncode} for '{' '.join(result.args)}'."
         )
-        handle_proc(cp)
+        sys.exit()
 
 
 def get_remote_stats(repo, env):
@@ -87,12 +76,80 @@ def get_remote_stats_for_version(repo, last_version, env):
     print(f"All archives compressed size: {total_size}")
 
 
-def handle_proc(result):
-    if result.returncode != 0:
-        print(
-            f"ERROR: Exit code {result.returncode} for '{' '.join(result.args)}'."
-        )
-        sys.exit()
+def backup():
+    repo, env = borg()
+
+    new_version = datetime.date.today().strftime("%Y_%m_%d")
+    print("Performing backup...")
+    cp = subprocess.run(
+        [
+            "borg", "create", "--progress", "--stats",
+            f"{repo}::{new_version}", _BACKUP_DIR
+        ],
+        env=env,
+    )
+    handle_proc(cp)
 
 
-remote_backup()
+def stats(args):
+    repo, env = borg()
+    last_version = get_remote_stats(repo, env)
+    get_remote_stats_for_version(repo, last_version, env)
+
+
+def ls(args):
+    repo, env = borg()
+    last_version = get_remote_stats(repo, env)
+
+    path = ""
+    if not args.dir or args.dir == ".":
+        path = os.getcwd()
+    elif args.dir.startswith("/"):
+        path = args.dir
+    else:
+        path = os.path.join(os.getcwd(), args.dir)
+
+    print(f"Remote files at {path}:")
+    cp = subprocess.run(
+        ["borg", "list", "--short", f"{repo}::{last_version}", path],
+        env=env,
+    )
+    handle_proc(cp)
+
+
+def cp(args):
+    repo, env = borg()
+    last_version = get_remote_stats(repo, env)
+
+    cp = subprocess.run(
+        [
+            "borg", "extract", "--progress", f"{repo}::{last_version}",
+            args.path
+        ],
+        env=env,
+    )
+    handle_proc(cp)
+
+
+parser = argparse.ArgumentParser(
+    prog="remote_backup",
+    description="Back up files to borg.",
+)
+subparsers = parser.add_subparsers(required=True)
+
+parser_stats = subparsers.add_parser("stats")
+parser_stats.set_defaults(func=stats)
+
+parser_stats = subparsers.add_parser("backup")
+parser_stats.set_defaults(func=backup)
+
+parser_ls = subparsers.add_parser("ls")
+parser_ls.set_defaults(func=ls)
+parser_ls.add_argument("dir", nargs='?')
+
+parser_cp = subparsers.add_parser("cp")
+parser_cp.set_defaults(func=cp)
+parser_cp.add_argument("path")
+
+args = parser.parse_args()
+args.func(args)
