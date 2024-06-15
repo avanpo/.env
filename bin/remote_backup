@@ -2,17 +2,13 @@
 #
 # Borg (and external SSD) backup script.
 
-import contextlib
 import datetime
-import functools
 import getpass
 import os
 import subprocess
 import sys
 
 _BACKUP_DIR = "/home/user/files"
-_MOUNT_DIR = "/mnt/backup/"
-_CRYPT_NAME = "backupdevice"
 
 
 def remote_backup():
@@ -89,66 +85,6 @@ def get_remote_stats_for_version(repo, last_version, env):
     total_size = cp.stdout.partition("All archives:")[2].partition(
         "\n")[0].rpartition("  ")[2].strip()
     print(f"All archives compressed size: {total_size}")
-
-
-def local_backup():
-    print("------------")
-    print("LOCAL BACKUP")
-    print("------------")
-
-    print("Searching for devices...")
-    cp = subprocess.run(["lsblk", "-nlp", "-I", "8", "-o", "NAME,TYPE"],
-                        capture_output=True,
-                        text=True)
-    handle_proc(cp)
-    lines = cp.stdout.split("\n")
-    devices = {}
-    i = 0
-    for l in lines:
-        if l.endswith("part"):
-            devices[str(i)] = l.partition(" ")[0]
-            i += 1
-    if len(devices) == 0:
-        print("ERROR: No devices found. Is one plugged in?")
-        sys.exit()
-    for i, d in devices.items():
-        print(f"  {d} [{i}]")
-    response = -1
-    while response not in devices:
-        response = input("Please choose a device: ")
-    device = devices[response]
-
-    def luks_close():
-        print("Closing LUKS.")
-        handle_proc(
-            subprocess.run(["sudo", "cryptsetup", "luksClose", _CRYPT_NAME]))
-
-    def unmount():
-        print(f"Unmounting {_MOUNT_DIR}.")
-        handle_proc(subprocess.run(["sudo", "umount", _MOUNT_DIR]))
-
-    with contextlib.ExitStack() as stack:
-        handle_proc(subprocess.run(["sudo", "mkdir", "-p", _MOUNT_DIR]))
-        # Set up LUKS.
-        print("Setting up LUKS.")
-        handle_proc(
-            subprocess.run(
-                ["sudo", "cryptsetup", "luksOpen", device, _CRYPT_NAME]))
-        stack.callback(luks_close)
-        # Mount the drive.
-        print(f"Mounting {_MOUNT_DIR}.")
-        handle_proc(
-            subprocess.run(
-                ["sudo", "mount", f"/dev/mapper/{_CRYPT_NAME}", _MOUNT_DIR]))
-        stack.callback(unmount)
-
-        # Do the backup.
-        print("Backing up with rsync...")
-        handle_proc(
-            subprocess.run([
-                "sudo", "rsync", "-a", "--delete", "--info=progress2",
-                "--info=name0", _BACKUP_DIR, _MOUNT_DIR
-            ]))
 
 
 def handle_proc(result):
