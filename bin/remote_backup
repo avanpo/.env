@@ -121,10 +121,12 @@ def cp(args):
     repo, env = borg()
     last_version = get_remote_stats(repo, env)
 
+    num_dirs = args.path.strip("/").count("/")
+
     cp = subprocess.run(
         [
-            "borg", "extract", "--progress", f"{repo}::{last_version}",
-            args.path
+            "borg", "extract", "--progress", "--strip-components",
+            str(num_dirs), f"{repo}::{last_version}", args.path
         ],
         env=env,
     )
