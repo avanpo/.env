@@ -4,9 +4,6 @@
 #
 # I should probably use the python-xlib library here but that's too much work
 # to figure out right now.
-#
-# Right now the script is pretty dumb and assumes the first listed display is
-# the laptop display.
 
 import subprocess
 import sys
@@ -21,6 +18,7 @@ MM_TO_INCH = 25.4
 class Monitor:
     name: str
     connected: bool
+    primary: bool
 
     res_x: int = 0
     res_y: int = 0
@@ -68,24 +66,47 @@ def primary():
 
 def external():
     monitors = parse_xrandr()
-    if len(monitors) < 2:
+
+    primary = None
+    externals = []
+    for m in monitors:
+        if m.primary:
+            primary = m
+        else:
+            externals.append(m)
+
+    if len(externals) == 0:
         print(f"Failed to find external monitor: {monitors}")
         sys.exit()
-    primary = monitors[0]
-    external = monitors[1]
 
-    print(f"Enabling {external.name}, disabling {primary.name}.")
-    args = [
-        "--output", primary.name, "--off", "--output", external.name, "--auto"
-    ]
+    args = ["--output", primary.name, "--off"]
+    previous = None
+    for e in externals:
+        args.extend(["--output", e.name, "--auto"])
+        if previous:
+            args.extend(["--right-of", previous.name])
+        previous = e
+
+    externals_str = ",".join(map(lambda x: x.name, externals))
+    print(f"Enabling {externals_str}, disabling {primary.name}.")
     if not run_xrandr(args):
         return False
 
     # Watch to get dpi info, since dimensions aren't present when the monitor
-    # is off.
-    external = watch(external)
-    print(f"Setting dpi to {external.dpi()}.")
-    run_xrandr(["--dpi", str(external.dpi())])
+    # is off. Use the highest dpi.
+    dpi = 0
+    for i, e in enumerate(externals):
+        externals[i] = watch(e)
+        if externals[i].dpi() > dpi:
+            dpi = externals[i].dpi()
+    print(f"Setting dpi to {dpi}.")
+    run_xrandr(["--dpi", str(dpi)])
+
+    # Then scale other monitors. For now, hardcoded.
+    for e in externals:
+        if e.dpi() < dpi:
+            print(f"Scaling {e.name} by 1.333x1.333.")
+            run_xrandr(["--output", e.name, "--scale", "1.333x1.333"])
 
     return True
 
@@ -111,12 +132,14 @@ def extract_monitor(tokens):
     if "connected" in tokens:
         connected = True
 
-    result = Monitor(name, connected)
-
     # What a terrible hack...
+    primary = False
     resolution = tokens[2]
     if "primary" in tokens:
+        primary = True
         resolution = tokens[3]
+
+    result = Monitor(name, connected, primary)
 
     # Get resolution
     if "x" in resolution:
