@@ -1,6 +1,11 @@
 #!/usr/bin/python
 #
 # Borg (and external SSD) backup script.
+#
+# TODO:
+# * sort "ls" output (in Python)
+# * hold ssh key in memory and pass on cmd line
+# * create a daemon to hold passwords
 
 import argparse
 import datetime
@@ -76,7 +81,7 @@ def get_remote_stats_for_version(repo, last_version, env):
     print(f"All archives compressed size: {total_size}")
 
 
-def backup():
+def backup(args):
     repo, env = borg()
 
     new_version = datetime.date.today().strftime("%Y_%m_%d")
@@ -111,7 +116,13 @@ def ls(args):
 
     print(f"Remote files at {path}:")
     cp = subprocess.run(
-        ["borg", "list", "--short", f"{repo}::{last_version}", path],
+        [
+            "borg",
+            "list",
+            "--short",
+            f"{repo}::{last_version}",
+            path,
+        ],
         env=env,
     )
     handle_proc(cp)
