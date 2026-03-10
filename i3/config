@@ -197,14 +197,14 @@ bindsym $mod+Shift+F3 exec --no-startup-id "pactl -- set-source-volume @DEFAULT_
 bindsym XF86MonBrightnessDown exec --no-startup-id "xbacklight -dec 5"
 bindsym XF86MonBrightnessUp exec --no-startup-id "xbacklight -inc 5"
 
-bindsym XF86AudioPlay exec --no-startup-id "mpc toggle"
-bindsym XF86AudioPrevious exec --no-startup-id "mpc prev"
-bindsym XF86AudioNext exec --no-startup-id "mpc next"
-bindsym XF86AudioStop exec --no-startup-id "mpc stop"
+bindsym XF86AudioPlay exec --no-startup-id "playerctl --player=jellyfin-tui play-pause"
+bindsym XF86AudioPrevious exec --no-startup-id "playerctl --player=jellyfin-tui previous"
+bindsym XF86AudioNext exec --no-startup-id "playerctl --player=jellyfin-tui next"
+bindsym XF86AudioStop exec --no-startup-id "playerctl --player=jellyfin-tui stop"
 
-bindsym Control+Down exec --no-startup-id "mpc toggle"
-bindsym Control+Left exec --no-startup-id "mpc prev"
-bindsym Control+Right exec --no-startup-id "mpc next"
+bindsym Control+Down exec --no-startup-id "playerctl --player=jellyfin-tui play-pause"
+bindsym Control+Left exec --no-startup-id "playerctl --player=jellyfin-tui previous"
+bindsym Control+Right exec --no-startup-id "playerctl --player=jellyfin-tui next"
 
 bindsym $mod+b exec --no-startup-id "$HOME/.env/bin/vpn"
 
@@ -222,5 +222,5 @@ for_window [class="URxvt" instance="prompt"] border none, floating enable, resiz
 
 for_window [class="URxvt" instance="cover"] border none, floating enable, resize set 80 ppt 80 ppt, move position center
 bindsym $mod+z exec --no-startup-id "$HOME/.env/i3/float.sh ranger"
-bindsym $mod+x exec --no-startup-id "$HOME/.env/i3/float.sh ncmpcpp"
+bindsym $mod+x exec --no-startup-id "$HOME/.env/i3/float.sh jellyfin-tui"
 bindsym $mod+comma exec --no-startup-ipd "$HOME/.env/i3/float.sh htop"
